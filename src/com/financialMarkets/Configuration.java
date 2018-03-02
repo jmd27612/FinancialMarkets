@@ -177,7 +177,7 @@ public class Configuration
 	/**
 	 * Returns the configuration value for the requested key 
 	 * @param propertyName 		The key of the configuration property
-	 * @param classKey [512]		The encryption key for the calling class
+	 * @param classKey [512]	The encryption key for the calling class
 	 * @return propertyValue 	The value of the configuration property
 	 * 
 	 */
