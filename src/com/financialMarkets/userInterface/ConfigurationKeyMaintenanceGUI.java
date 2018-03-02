@@ -1,3 +1,10 @@
+/**
+ * The ConfigurationKeyMaintenanceGUI class provides a simple user interface for entering the
+ * key name, key value, and class key for adding and modifying configuration properties.
+ * 
+ * @author Justin Dudley
+ */
+
 package com.financialMarkets.userInterface;
 
 import javax.swing.JDesktopPane;
