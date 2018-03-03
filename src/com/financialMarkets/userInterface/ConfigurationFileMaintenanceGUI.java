@@ -28,27 +28,40 @@ import java.awt.event.ActionEvent;
 import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
 
-public class ConfigurationFileMaintenanceGUI extends JFrame
+public class ConfigurationFileMaintenanceGUI //extends JFrame
 {
-	private static final long serialVersionUID = -5694893118879882025L;
+	//private static final long serialVersionUID = -5694893118879882025L;
+	private JFrame mainFrame; 
 	private JDesktopPane desktopPane;
+	private JPanel mainPanel; 
+	private JTextArea headerTextArea; 
+	private JPanel currentKeysPanel; 
+	private JList<String> keyList; 
+	private JPanel optionsPanel; 
+	private JButton newKeyButton; 
+	private JButton updateButton; 
+	private JButton deleteButton; 
+	private JButton exitButton; 
 	
 	public ConfigurationFileMaintenanceGUI()
 	{
-		JPanel mainPanel = new JPanel();
+		mainFrame = new JFrame(); 
+		
+		mainPanel = new JPanel();
 		mainPanel.setBorder(null);
-		setContentPane(mainPanel);
+		mainFrame.setContentPane(mainPanel);
 		mainPanel.setLayout(null);
 		
 		desktopPane = new JDesktopPane();
 		desktopPane.setBounds(0, 150, 1, 300);
 		mainPanel.add(desktopPane);
 		
-		setTitle(Utilities.APPLICATION_NAME + " - Configuration File Maintenance"); 
-		setSize(700,500); 
+		mainFrame.setLocationRelativeTo(null); 
+		mainFrame.setTitle(Utilities.APPLICATION_NAME + " - Configuration File Maintenance"); 
+		mainFrame.setSize(700,500); 
 		
 		//Header text area
-		JTextArea headerTextArea = new JTextArea();
+		headerTextArea = new JTextArea();
 		headerTextArea.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		headerTextArea.setBounds(10, 10, 664, 75);
 		headerTextArea.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -67,47 +80,49 @@ public class ConfigurationFileMaintenanceGUI extends JFrame
 		mainPanel.add(headerTextArea);
 		
 		//Current Keys Panel
-		JPanel currentKeysPanel = new JPanel();
+		currentKeysPanel = new JPanel();
 		currentKeysPanel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Current Configuration Property Keys", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		currentKeysPanel.setBounds(66, 132, 232, 262);
 		mainPanel.add(currentKeysPanel);
 		currentKeysPanel.setLayout(null);
 		
 		//Key List
-		JList<String> keyList = new JList<String>(populatePropertiesList());
+		keyList = new JList<String>(populatePropertiesList());
 		keyList.setBounds(10, 22, 212, 229);
 		currentKeysPanel.add(keyList);
 		keyList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		//Options Panel
-		JPanel optionsPanel = new JPanel();
+		optionsPanel = new JPanel();
 		optionsPanel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Options", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		optionsPanel.setBounds(373, 132, 232, 262);
 		mainPanel.add(optionsPanel);
 		optionsPanel.setLayout(null);
 		
 		//Create New Key Button
-		JButton newKeyButton = new JButton("Create New Key");
+		newKeyButton = new JButton("Create New Key");
 		newKeyButton.setBounds(10, 25, 211, 23);
 		optionsPanel.add(newKeyButton);
 		
 		newKeyButton.addActionListener(new ActionListener()
 		{
+			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				//TODO
-				ConfigurationKeyMaintenanceGUI keyMaintGUI = new ConfigurationKeyMaintenanceGUI(); 
+				ConfigurationKeyMaintenanceGUI keyMaintGUI = new ConfigurationKeyMaintenanceGUI(mainFrame); 
 
 			}
 		});
 		
 		//Update Selected Key Button
-		JButton updateButton = new JButton("Update Selected Key");
+		updateButton = new JButton("Update Selected Key");
 		updateButton.setBounds(10, 59, 211, 23);
 		optionsPanel.add(updateButton);
 		
 		updateButton.addActionListener(new ActionListener() 
 		{
+			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
 				//TODO
@@ -115,6 +130,7 @@ public class ConfigurationFileMaintenanceGUI extends JFrame
 				{
 					String keyName = keyList.getSelectedValue(); 
 					ConfigurationKeyMaintenanceGUI keyMaintGUI = new ConfigurationKeyMaintenanceGUI(keyName); 
+					
 				}
 				else
 				{
@@ -125,13 +141,14 @@ public class ConfigurationFileMaintenanceGUI extends JFrame
 		});
 		
 		//Delete Selected Key Button
-		JButton deleteButton = new JButton("Delete Selected Key");
+		deleteButton = new JButton("Delete Selected Key");
 		deleteButton.setBounds(10, 93, 211, 23);
 		optionsPanel.add(deleteButton);
 		deleteButton.setActionCommand("Delete Selected Key");
 		
 		deleteButton.addActionListener(new ActionListener() 
 		{
+			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
 				if(keyList.isSelectionEmpty() == false)
@@ -154,20 +171,23 @@ public class ConfigurationFileMaintenanceGUI extends JFrame
 		});
 
 		//Exit Button
-		JButton exitButton = new JButton("Exit");
+		exitButton = new JButton("Exit");
 		exitButton.setBounds(10, 127, 211, 23);
 		optionsPanel.add(exitButton);
 		
 		exitButton.addActionListener(new ActionListener()
 		{
+			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				setVisible(false); 
+				mainFrame.setVisible(false); 
 			}
 		});
 		
-		setVisible(true); 
+		mainFrame.setVisible(true); 
 	}
+	
+	
 	
 	/**
 	 * Utility method: Retrieves a list of property keys from the current running configuration
