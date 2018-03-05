@@ -193,10 +193,10 @@ public class Configuration
 	 * @param plainText			The value of the configuration property
 	 * @param classKey [512]		The encryption key for the calling class
 	 */
-	public void setProperty(String propertyName, String plainText, char[] classKey)
+	public void setProperty(String propertyName, char[] plainText, char[] classKey)
 	{
 		configurationLogger.info(String.format("Adding/Updating property [%s].",propertyName));
-		properties.setProperty(propertyName, encrypt(plainText, classKey)); 
+		properties.setProperty(propertyName, encrypt(plainText.toString(), classKey)); 
 		writeConfigToFile(); 
 	}
 	
@@ -207,7 +207,6 @@ public class Configuration
 	public void deleteProperty(String propertyName)
 	{
 		configurationLogger.warning(String.format("Delete Property Requested: [%s]", propertyName));
-		//TODO delete property
 		properties.remove(propertyName); 
 		writeConfigToFile(); 
 	}

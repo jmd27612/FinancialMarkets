@@ -1,9 +1,7 @@
 package com.financialMarkets;
 
 import java.util.logging.Logger;
-
 import javax.swing.SwingUtilities;
-
 import com.financialMarkets.userInterface.ConfigurationFileMaintenanceGUI;
 
 public class Main

@@ -24,11 +24,13 @@ import javax.swing.border.EtchedBorder;
 import java.awt.Cursor;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
 
-public class ConfigurationFileMaintenanceGUI //extends JFrame
+public class ConfigurationFileMaintenanceGUI
 {
 	//private static final long serialVersionUID = -5694893118879882025L;
 	private JFrame mainFrame; 
@@ -104,14 +106,14 @@ public class ConfigurationFileMaintenanceGUI //extends JFrame
 		newKeyButton.setBounds(10, 25, 211, 23);
 		optionsPanel.add(newKeyButton);
 		
+		//Action listener for New Key Button
+		//Calls Configuration Key Maintenance GUI
 		newKeyButton.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				//TODO
-				ConfigurationKeyMaintenanceGUI keyMaintGUI = new ConfigurationKeyMaintenanceGUI(mainFrame); 
-
+				new ConfigurationKeyMaintenanceGUI(mainFrame); 
 			}
 		});
 		
@@ -120,16 +122,17 @@ public class ConfigurationFileMaintenanceGUI //extends JFrame
 		updateButton.setBounds(10, 59, 211, 23);
 		optionsPanel.add(updateButton);
 		
+		//Action listener for Update Key Button
+		//Calls Configuration Key Maintenance GUI
 		updateButton.addActionListener(new ActionListener() 
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
-				//TODO
 				if(keyList.isSelectionEmpty() == false)
 				{
 					String keyName = keyList.getSelectedValue(); 
-					ConfigurationKeyMaintenanceGUI keyMaintGUI = new ConfigurationKeyMaintenanceGUI(keyName); 
+					new ConfigurationKeyMaintenanceGUI(keyName, mainFrame); 
 					
 				}
 				else
@@ -146,6 +149,7 @@ public class ConfigurationFileMaintenanceGUI //extends JFrame
 		optionsPanel.add(deleteButton);
 		deleteButton.setActionCommand("Delete Selected Key");
 		
+		//Action listener for Delete Key Button
 		deleteButton.addActionListener(new ActionListener() 
 		{
 			@Override
@@ -159,7 +163,7 @@ public class ConfigurationFileMaintenanceGUI //extends JFrame
 					{
 						String propertyName = keyList.getSelectedValue(); 
 						Utilities.config.deleteProperty(propertyName);
-						//TODO update list
+						updateKeyList(); 
 					}
 				}
 				else
@@ -175,6 +179,7 @@ public class ConfigurationFileMaintenanceGUI //extends JFrame
 		exitButton.setBounds(10, 127, 211, 23);
 		optionsPanel.add(exitButton);
 		
+		//Action listener for Exit Button
 		exitButton.addActionListener(new ActionListener()
 		{
 			@Override
@@ -184,9 +189,27 @@ public class ConfigurationFileMaintenanceGUI //extends JFrame
 			}
 		});
 		
+		//List Updater
+		mainFrame.addWindowListener(new WindowAdapter()
+		{
+			@Override
+			public void windowActivated(WindowEvent e)
+			{
+				updateKeyList(); 
+			}
+		});
+		
+		
 		mainFrame.setVisible(true); 
 	}
 	
+	/**
+	 * Utility method: Updates the key list on the GUI
+	 */
+	private void updateKeyList()
+	{
+		keyList.setModel(populatePropertiesList());
+	}
 	
 	
 	/**

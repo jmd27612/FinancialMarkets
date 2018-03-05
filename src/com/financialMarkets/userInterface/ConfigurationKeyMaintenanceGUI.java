@@ -7,12 +7,11 @@
 
 package com.financialMarkets.userInterface;
 
-import java.awt.Dialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
+import java.awt.Dialog;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDesktopPane;
@@ -22,8 +21,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.JWindow;
-
 import com.financialMarkets.Utilities;
 
 public class ConfigurationKeyMaintenanceGUI extends JDialog
@@ -44,24 +41,29 @@ public class ConfigurationKeyMaintenanceGUI extends JDialog
 	private JButton submitButton; 
 	private JFrame parentFrame; 
 	
+	boolean isEdit; 
+	String keyName; 
 	
+	//Constructor for adding a new key
 	ConfigurationKeyMaintenanceGUI(JFrame parentFrame)
 	{
 		super(parentFrame); 
+		isEdit = false; 
 		this.parentFrame = parentFrame; 
 		createFrame(); 
 		setLocationRelativeTo(parentFrame); 
 		
 	}
 	
-	ConfigurationKeyMaintenanceGUI(String keyName)
+	//Constructor for editing an existing key
+	ConfigurationKeyMaintenanceGUI(String keyName, JFrame parentFrame)
 	{
+		super(parentFrame); 
+		isEdit = true; 
+		this.keyName = keyName; 
+		this.parentFrame = parentFrame; 
+		setLocationRelativeTo(parentFrame); 
 		createFrame(); 
-		keyNameField.setText(keyName);
-		keyNameField.setEditable(false);
-		keyNameLengthLabel.setText(Integer.toString(keyNameField.getText().length()));
-		
-		//TODO change submit text if an update
 	}
 	
 	private void createFrame()
@@ -70,6 +72,7 @@ public class ConfigurationKeyMaintenanceGUI extends JDialog
 		mainPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder())); 
 		setContentPane(mainPanel); 
 
+		//Document Modality locks the parent window until current window is closed
 		setModalityType(Dialog.ModalityType.DOCUMENT_MODAL); 
 		mainPanel.setLayout(null);
 		
@@ -77,8 +80,9 @@ public class ConfigurationKeyMaintenanceGUI extends JDialog
 		desktopPane.setBounds(0, 525, 1, 300);
 		mainPanel.add(desktopPane); 
 		
+		//Location relative to parent keeps the window from opening in the top corner of the screen
 		setLocationRelativeTo(parentFrame); 
-		//setTitle(Utilities.APPLICATION_NAME + " - Configuration Key Maintenance"); 
+		setTitle(Utilities.APPLICATION_NAME + " - Configuration Key Maintenance"); 
 		setSize(510, 275); 
 		
 		//Key Name Label
@@ -91,11 +95,19 @@ public class ConfigurationKeyMaintenanceGUI extends JDialog
 		keyNameField.setBounds(100, 27, 300, 25);
 		mainPanel.add(keyNameField); 
 		
+		//If an edit, fill in the key name automatically. Set to not allow editing 
+		if(isEdit)
+		{
+			keyNameField.setText(keyName);
+			keyNameField.setEditable(false);
+		}
+		
 		//Key Name Length Label
 		keyNameLengthLabel = new JLabel("0"); 
-		keyNameLengthLabel.setBounds(450, 27, 20, 25);
+		keyNameLengthLabel.setBounds(450, 27, 50, 25);
 		mainPanel.add(keyNameLengthLabel); 
 		
+		//Key Listener for Key Name Length Field
 		keyNameField.addKeyListener(new KeyListener()
 		{
 			@Override
@@ -108,6 +120,7 @@ public class ConfigurationKeyMaintenanceGUI extends JDialog
 			public void keyReleased(KeyEvent e)
 			{
 				keyNameLengthLabel.setText(Integer.toString(keyNameField.getText().length()));
+				lengthVerification(); 
 			}
 			
 			@Override
@@ -116,6 +129,12 @@ public class ConfigurationKeyMaintenanceGUI extends JDialog
 				//No action to perform
 			}
 		});
+		
+		//If an edit, manually update the length field
+		if(isEdit)
+		{
+			keyNameLengthLabel.setText(Integer.toString(keyName.length()));
+		}
 		
 		//Key Value Label
 		keyValueLabel = new JLabel("Key Value: ");
@@ -129,9 +148,10 @@ public class ConfigurationKeyMaintenanceGUI extends JDialog
 		
 		//Key Value Length Label
 		keyValueLengthLabel = new JLabel("0"); 
-		keyValueLengthLabel.setBounds(450, 72, 20, 25);
+		keyValueLengthLabel.setBounds(450, 72, 50, 25);
 		mainPanel.add(keyValueLengthLabel); 
 		
+		//Key Listener for Key Value Field
 		keyValueField.addKeyListener(new KeyListener()
 		{
 			@Override
@@ -144,6 +164,7 @@ public class ConfigurationKeyMaintenanceGUI extends JDialog
 			public void keyReleased(KeyEvent e)
 			{
 				keyValueLengthLabel.setText(Integer.toString(keyValueField.getPassword().length));
+				lengthVerification(); 
 			}
 
 			@Override
@@ -165,9 +186,10 @@ public class ConfigurationKeyMaintenanceGUI extends JDialog
 		
 		//Class Key Length Label
 		classKeyLengthLabel = new JLabel("0"); 
-		classKeyLengthLabel.setBounds(450, 118, 20, 25);
+		classKeyLengthLabel.setBounds(450, 118, 50, 25);
 		mainPanel.add(classKeyLengthLabel); 
 		
+		//Key Listener for Class Key Field
 		classKeyField.addKeyListener(new KeyListener()
 		{
 			@Override
@@ -180,6 +202,7 @@ public class ConfigurationKeyMaintenanceGUI extends JDialog
 			public void keyReleased(KeyEvent e)
 			{
 				classKeyLengthLabel.setText(Integer.toString(classKeyField.getPassword().length));
+				lengthVerification(); 
 			}
 
 			@Override
@@ -194,6 +217,7 @@ public class ConfigurationKeyMaintenanceGUI extends JDialog
 		cancelButton.setBounds(50, 175, 175, 25);
 		mainPanel.add(cancelButton); 
 		
+		//Action Listener for Cancel Button
 		cancelButton.addActionListener(new ActionListener() 
 		{
 			@Override
@@ -206,10 +230,44 @@ public class ConfigurationKeyMaintenanceGUI extends JDialog
 		//Submit Button
 		submitButton = new JButton("Add Key"); 
 		submitButton.setBounds(260, 175, 175, 25);
+		submitButton.setEnabled(false);
 		mainPanel.add(submitButton); 
+		
+		//If this is an edit, the submit button says "Change Key" instead. 
+		if(isEdit)
+		{
+			submitButton.setText("Change Key");
+		}
+		
+		//Action Listener for Submit Button
+		submitButton.addActionListener(new ActionListener() 
+		{
+			@Override
+			public void actionPerformed(ActionEvent arg0)
+			{
+				Utilities.config.setProperty(keyNameField.getText(), keyValueField.getPassword(), classKeyField.getPassword());
+				setVisible(false); 
+			}
+		});
 		
 		
 		setVisible(true); 
+	}
+	
+	/**
+	 * Utility method: Enables and disables the submit key based on the length of the input fields. 
+	 */
+	private void lengthVerification()
+	{
+		if(classKeyField.getPassword().length == 512 && keyNameField.getText().length() != 0
+				&& keyValueField.getPassword().length > 1)
+		{
+			submitButton.setEnabled(true);
+		}
+		else
+		{
+			submitButton.setEnabled(false);
+		}
 	}
 	
 	
