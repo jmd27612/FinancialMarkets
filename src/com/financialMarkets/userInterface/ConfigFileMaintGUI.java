@@ -54,7 +54,6 @@ public class ConfigFileMaintGUI
 		localLogger = Logger.getLogger("com.financialMarkets.userInterface.ConfigFileMaintGUI"); 
 		
 		mainFrame = new JFrame(); 
-		
 		mainPanel = new JPanel();
 		mainPanel.setBorder(null);
 		mainFrame.setContentPane(mainPanel);

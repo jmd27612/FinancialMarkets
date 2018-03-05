@@ -42,7 +42,6 @@ public class ConfigKeyMaintGUI extends JDialog
 	private JButton cancelButton; 
 	private JButton submitButton; 
 	private JFrame parentFrame; 
-	
 	boolean isEdit; 
 	String keyName; 
 	
