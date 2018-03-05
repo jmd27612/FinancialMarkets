@@ -29,14 +29,13 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.jasypt.util.text.StrongTextEncryptor;
 
 public class Configuration
 {
 	private StrongTextEncryptor encryptor = null; 
 	private Properties properties = null; 
-	private Logger configurationLogger; 
+	private Logger localLogger; 
 	private char[] keyFile;
 	
 	/**
@@ -46,15 +45,17 @@ public class Configuration
 	 * @throws FileNotFoundException  				if the XML configuration file or keyfile cannot be found 
 	 * @throws IOException 							if there is an error while writing to the XML configuration file 
 	 */
+	//TODO fix exceptions
+	
 	public Configuration()
 	{
 		Utilities.logger.entering("Configuration", "Configuration");
 		
 		//Initialize logger
-		configurationLogger = Logger.getLogger("com.financialMarkets.Configuration"); 
+		localLogger = Logger.getLogger("com.financialMarkets.Configuration"); 
 		
 		//Load the keyfile from the keystore
-		configurationLogger.info("Loading keyfile");
+		localLogger.info("Loading keyfile");
 		keyFile = new char[Utilities.KEY_LENGTH]; 
 		try
 		{
@@ -67,32 +68,32 @@ public class Configuration
 		}
 		catch(FileNotFoundException e)
 		{
-			configurationLogger.log(Level.SEVERE, e.getMessage(), e);
+			localLogger.log(Level.SEVERE, e.getMessage(), e);
 		}
 		catch(Exception e)
 		{
-			configurationLogger.log(Level.SEVERE, e.getMessage(), e);
+			localLogger.log(Level.SEVERE, e.getMessage(), e);
 		}
-		configurationLogger.info("Keyfile loaded from keystore"); 
+		localLogger.info("Keyfile loaded from keystore"); 
 		
 		//Initialize and load the properties object
 		properties = new Properties(); 
 		try
 		{
 			properties.loadFromXML(new FileInputStream(Utilities.CONFIG_PATH));
-			configurationLogger.info("Configuration loaded from XML file");
+			localLogger.info("Configuration loaded from XML file");
 		}
 		catch(InvalidPropertiesFormatException e)
 		{
-			configurationLogger.log(Level.SEVERE, e.getMessage(), e);
+			localLogger.log(Level.SEVERE, e.getMessage(), e);
 		}
 		catch(FileNotFoundException e)
 		{
-			configurationLogger.log(Level.SEVERE, e.getMessage(), e);
+			localLogger.log(Level.SEVERE, e.getMessage(), e);
 		}
 		catch(IOException e)
 		{
-			configurationLogger.log(Level.SEVERE, e.getMessage(), e);
+			localLogger.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 	
@@ -155,22 +156,22 @@ public class Configuration
 	 */
 	private void writeConfigToFile()
 	{
-		configurationLogger.info("Writing configuration to file.");
+		localLogger.info("Writing configuration to file.");
 		try
 		{
 			properties.storeToXML(new FileOutputStream(Utilities.CONFIG_PATH), "Financial Markets Analytics Application Configuration");
 		} 
 		catch(InvalidPropertiesFormatException e)
 		{
-			configurationLogger.log(Level.SEVERE, e.getMessage(), e);
+			localLogger.log(Level.SEVERE, e.getMessage(), e);
 		}
 		catch(FileNotFoundException e)
 		{
-			configurationLogger.log(Level.SEVERE, e.getMessage(), e);
+			localLogger.log(Level.SEVERE, e.getMessage(), e);
 		}
 		catch(IOException e)
 		{
-			configurationLogger.log(Level.SEVERE, e.getMessage(), e);
+			localLogger.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 	
@@ -183,7 +184,7 @@ public class Configuration
 	 */
 	public char[] getProperty(String propertyName, char[] classKey)
 	{
-		configurationLogger.info(String.format("Key Requested: [%s]", propertyName));
+		localLogger.info(String.format("Key Requested: [%s]", propertyName));
 		return decrypt(properties.getProperty(propertyName), classKey); 
 	}
 	
@@ -195,7 +196,7 @@ public class Configuration
 	 */
 	public void setProperty(String propertyName, char[] plainText, char[] classKey)
 	{
-		configurationLogger.info(String.format("Adding/Updating property [%s].",propertyName));
+		localLogger.info(String.format("Adding/Updating property [%s].",propertyName));
 		properties.setProperty(propertyName, encrypt(plainText.toString(), classKey)); 
 		writeConfigToFile(); 
 	}
@@ -206,7 +207,7 @@ public class Configuration
 	 */
 	public void deleteProperty(String propertyName)
 	{
-		configurationLogger.warning(String.format("Delete Property Requested: [%s]", propertyName));
+		localLogger.warning(String.format("Delete Property Requested: [%s]", propertyName));
 		properties.remove(propertyName); 
 		writeConfigToFile(); 
 	}
@@ -217,7 +218,7 @@ public class Configuration
 	 */
 	public Set<String> getPropertiesList()
 	{	
-		configurationLogger.info("Property List requested.");
+		localLogger.info("Property List requested.");
 		return properties.stringPropertyNames(); 
 	}
 	

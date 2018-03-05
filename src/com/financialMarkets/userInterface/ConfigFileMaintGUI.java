@@ -1,5 +1,5 @@
 /**
- * The ConfigurationFileMaintenanceGUI class provides a user interface to maintain the configuration file. Due to the
+ * The ConfigFileMaintGUI class provides a user interface to maintain the configuration file. Due to the
  * encryption of the configuration file provided by the Configuration class, it is not possible to edit the file
  * directly. This GUI is the sole maintenance point. 
  * 
@@ -29,10 +29,11 @@ import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
+import java.util.logging.Logger;
 
-public class ConfigurationFileMaintenanceGUI
+public class ConfigFileMaintGUI
 {
-	//private static final long serialVersionUID = -5694893118879882025L;
+	private Logger localLogger; 
 	private JFrame mainFrame; 
 	private JDesktopPane desktopPane;
 	private JPanel mainPanel; 
@@ -45,8 +46,13 @@ public class ConfigurationFileMaintenanceGUI
 	private JButton deleteButton; 
 	private JButton exitButton; 
 	
-	public ConfigurationFileMaintenanceGUI()
+	public ConfigFileMaintGUI()
 	{
+		Utilities.logger.entering("ConfigFileMaintGUI", "ConfigFileMaintGUI");
+		
+		//Initialize logger
+		localLogger = Logger.getLogger("com.financialMarkets.userInterface.ConfigFileMaintGUI"); 
+		
 		mainFrame = new JFrame(); 
 		
 		mainPanel = new JPanel();
@@ -113,7 +119,8 @@ public class ConfigurationFileMaintenanceGUI
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				new ConfigurationKeyMaintenanceGUI(mainFrame); 
+				localLogger.info("New Key Button clicked");
+				new ConfigKeyMaintGUI(mainFrame); 
 			}
 		});
 		
@@ -129,10 +136,11 @@ public class ConfigurationFileMaintenanceGUI
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
+				localLogger.info("Update Key Button clicked"); 
 				if(keyList.isSelectionEmpty() == false)
 				{
 					String keyName = keyList.getSelectedValue(); 
-					new ConfigurationKeyMaintenanceGUI(keyName, mainFrame); 
+					new ConfigKeyMaintGUI(keyName, mainFrame); 
 					
 				}
 				else
@@ -155,6 +163,7 @@ public class ConfigurationFileMaintenanceGUI
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
+				localLogger.info("Delete Key Button clicked"); 
 				if(keyList.isSelectionEmpty() == false)
 				{
 					int reply = JOptionPane.showConfirmDialog(null, "Are you sure you want to permanently delete configuration keys?", 
@@ -162,6 +171,7 @@ public class ConfigurationFileMaintenanceGUI
 					if(reply == JOptionPane.YES_OPTION)
 					{
 						String propertyName = keyList.getSelectedValue(); 
+						localLogger.warning("User requests delete configuration key - " + propertyName);
 						Utilities.config.deleteProperty(propertyName);
 						updateKeyList(); 
 					}
@@ -185,6 +195,7 @@ public class ConfigurationFileMaintenanceGUI
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
+				localLogger.info("Exit Button clicked");
 				mainFrame.setVisible(false); 
 			}
 		});
@@ -195,6 +206,7 @@ public class ConfigurationFileMaintenanceGUI
 			@Override
 			public void windowActivated(WindowEvent e)
 			{
+				localLogger.info("GUI regained focus, keys may be out of date. Requesting refresh.");
 				updateKeyList(); 
 			}
 		});
@@ -208,6 +220,8 @@ public class ConfigurationFileMaintenanceGUI
 	 */
 	private void updateKeyList()
 	{
+		localLogger.entering("ConfigFileMaintGUI", "updateKeyList");
+		localLogger.info("Updating Key List");
 		keyList.setModel(populatePropertiesList());
 	}
 	
@@ -218,6 +232,8 @@ public class ConfigurationFileMaintenanceGUI
 	 */
 	private DefaultListModel<String> populatePropertiesList()
 	{
+		localLogger.entering("ConfigFileMaintGUI", "populatePropertiesList");
+		
 		final DefaultListModel<String> L1 = new DefaultListModel<String>(); 
 		
 		for(String property : Utilities.config.getPropertiesList()) 

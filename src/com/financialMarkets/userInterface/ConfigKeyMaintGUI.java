@@ -1,5 +1,5 @@
 /**
- * The ConfigurationKeyMaintenanceGUI class provides a simple user interface for entering the
+ * The ConfigKeyMaintGUI class provides a simple user interface for entering the
  * key name, key value, and class key for adding and modifying configuration properties.
  * 
  * @author Justin Dudley
@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.logging.Logger;
 import java.awt.Dialog;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -23,9 +24,10 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import com.financialMarkets.Utilities;
 
-public class ConfigurationKeyMaintenanceGUI extends JDialog
+public class ConfigKeyMaintGUI extends JDialog
 {
 	private static final long serialVersionUID = 8263805047853289347L;
+	private Logger localLogger; 
 	private JDesktopPane desktopPane; 
 	private JPanel mainPanel; 
 	private JLabel keyNameLabel; 
@@ -45,18 +47,17 @@ public class ConfigurationKeyMaintenanceGUI extends JDialog
 	String keyName; 
 	
 	//Constructor for adding a new key
-	ConfigurationKeyMaintenanceGUI(JFrame parentFrame)
+	ConfigKeyMaintGUI(JFrame parentFrame)
 	{
 		super(parentFrame); 
 		isEdit = false; 
 		this.parentFrame = parentFrame; 
 		createFrame(); 
 		setLocationRelativeTo(parentFrame); 
-		
 	}
 	
 	//Constructor for editing an existing key
-	ConfigurationKeyMaintenanceGUI(String keyName, JFrame parentFrame)
+	ConfigKeyMaintGUI(String keyName, JFrame parentFrame)
 	{
 		super(parentFrame); 
 		isEdit = true; 
@@ -68,6 +69,9 @@ public class ConfigurationKeyMaintenanceGUI extends JDialog
 	
 	private void createFrame()
 	{
+		//Initialize logger
+		localLogger = Logger.getLogger("com.financialMarkets.userInterface.ConfigKeyMaintGUI"); 
+		
 		mainPanel = new JPanel(); 
 		mainPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder())); 
 		setContentPane(mainPanel); 
@@ -223,6 +227,7 @@ public class ConfigurationKeyMaintenanceGUI extends JDialog
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
+				localLogger.info("Cancel Button clicked"); 
 				setVisible(false); 
 			}
 		});
@@ -245,6 +250,7 @@ public class ConfigurationKeyMaintenanceGUI extends JDialog
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
+				localLogger.info("Submit Button clicked");
 				Utilities.config.setProperty(keyNameField.getText(), keyValueField.getPassword(), classKeyField.getPassword());
 				setVisible(false); 
 			}
