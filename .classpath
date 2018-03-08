@@ -39,6 +39,5 @@
 	<classpathentry kind="lib" path="C:/Users/Justin Dudley/git/FinancialMarkets/FinancialMarkets/src/Dependencies/jasypt-1.9.2/lib/jasypt-wicket15-1.9.2.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Justin Dudley/git/FinancialMarkets/FinancialMarkets/src/Dependencies/jasypt-1.9.2/lib/jasypt-wicket15-1.9.2-javadoc.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Justin Dudley/git/FinancialMarkets/FinancialMarkets/src/Dependencies/jasypt-1.9.2/lib/jasypt-wicket15-1.9.2-sources.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Justin Dudley/git/FinancialMarkets/FinancialMarkets/src/Dependencies/javax.mail.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

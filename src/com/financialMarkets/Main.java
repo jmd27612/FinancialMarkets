@@ -17,27 +17,10 @@ public class Main
 {
 	private static Logger logger; 
 	private static Handler fileHandler; 
-	private static EmailHandler emailHandler; 
 	
 	public static void main(String[] args)
 	{
-//		EmailSender sender = new EmailSender("This is a test log message from MAIN", "TESTING123"); 
-//		sender.run();
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
 		//Initialize the logging hierarchy and create file handler
 		try
 		{
@@ -60,8 +43,8 @@ public class Main
 		
 		
 		//Flush and close the logging file handler
-//		fileHandler.flush();
-//		fileHandler.close(); 
+		fileHandler.flush();
+		fileHandler.close(); 
 
 	}
 	
@@ -73,10 +56,8 @@ public class Main
 	private static void initLoggerHierarchy() throws SecurityException, IOException
 	{
 		Utilities.LOGGER = Logger.getLogger(""); 
-		//initLoggerFileHandler(); 
+		initLoggerFileHandler(); 
 		Utilities.LOGGER.setLevel(Level.ALL); 
-
-		initLoggerEmailHandler(); 
 		
 		Logger.getLogger("com"); 
 		Logger.getLogger("com.financialMarkets"); 
@@ -98,13 +79,6 @@ public class Main
 		Utilities.LOGGER.addHandler(fileHandler);
 	}
 	
-	private static void initLoggerEmailHandler()
-	{
-		emailHandler = new EmailHandler(); 
-		emailHandler.setLevel(Level.WARNING);
-		Utilities.LOGGER.addHandler(emailHandler);
-		
-	}
 	
 	
 	/**
