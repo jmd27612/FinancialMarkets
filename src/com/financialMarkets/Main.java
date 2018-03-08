@@ -20,7 +20,7 @@ public class Main
 	{
 		System.out.println(System.getProperty("user.home"));
 		
-		//initialize(); 
+		initialize(); 
 		
 		
 
@@ -71,29 +71,29 @@ public class Main
 		
 		Utilities.config = new Configuration(); 
 		
-//		//Run the GUI codes in the Event-dispatching thread for thread-safety
-//		SwingUtilities.invokeLater(new Runnable()
-//		{
-//			public void run()
-//			{
-//				new ConfigFileMaintGUI(); 
-//			}
-//		});
+		//Run the GUI codes in the Event-dispatching thread for thread-safety
+		SwingUtilities.invokeLater(new Runnable()
+		{
+			public void run()
+			{
+				new ConfigFileMaintGUI(); 
+			}
+		});
 		
 
 		
-//		for(int i = 0; i < 1000; i ++)
-//		{
-//			System.out.println(i);
-//			try
-//			{
-//				Thread.sleep(250);
-//			} catch (InterruptedException e)
-//			{
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		}
+		for(int i = 0; i < 1000; i ++)
+		{
+			System.out.println(i);
+			try
+			{
+				Thread.sleep(250);
+			} catch (InterruptedException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		
 	}
 
