@@ -2,6 +2,7 @@ package com.financialMarkets;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Calendar;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -14,36 +15,81 @@ import com.financialMarkets.userInterface.ConfigFileMaintGUI;
 
 public class Main
 {
-
+	private static Logger logger; 
+	private static Handler fileHandler; 
 	
 	public static void main(String[] args)
 	{
-		System.out.println(System.getProperty("user.home"));
+		//Initialize the logging hierarchy and create file handler
+		try
+		{
+			initLoggerHierarchy(); 
+		}
+		catch(Exception e)
+		{
+			System.err.println("Unable to initialize the logging hierarchy. The program must exit! Error Code: 1");
+			System.err.println(e.toString());
+			System.err.println(e.getMessage());
+			System.err.println(e.getStackTrace());
+		}
+		finally
+		{
+			System.exit(1); 
+		}
+
+
 		
-		initialize(); 
+		
+		//initialize(); 
 		
 		
+		//Flush and close the logging file handler
+		fileHandler.flush();
+		fileHandler.close(); 
 
 	}
 	
 	/**
-	 * Initializes the logger. 
+	 * Initializes the logging hierarchy for com.financialMarkets
+	 * @throws SecurityException
+	 * @throws IOException
+	 */
+	private static void initLoggerHierarchy() throws SecurityException, IOException
+	{
+		Utilities.logger = Logger.getLogger(""); 
+		initLoggerFileHandler(); 
+		Utilities.logger.setLevel(Level.ALL); 
+		
+		Logger.getLogger("com"); 
+		Logger.getLogger("com.financialMarkets"); 
+		logger = Logger.getLogger(Main.class.getName());
+		logger.info("Logging hierarchy initialized");
+	}
+	
+	/**
+	 * Initializes the file handler for the logger, written to the logs directory in the current
+	 * working directory
+	 * @throws SecurityException
+	 * @throws IOException
+	 */
+	private static void initLoggerFileHandler() throws SecurityException, IOException
+	{
+		String logFileName = "logs/global." + Calendar.getInstance().getTimeInMillis() + ".xml"; 
+		fileHandler = new FileHandler(logFileName, false); 
+		fileHandler.setLevel(Level.ALL);
+		Utilities.logger.addHandler(fileHandler);
+	}
+	
+	
+	
+	/**
+	 * 
 	 * Loads keys for configuration file into memory. 
 	 * 
 	 */
 	private static void initialize()
 	{
-		//dynamically load java.util.logging properties files from a relative path.
-		//Put logging.properties file in default package. 
-//		final InputStream inputStream = Main.class.getResourceAsStream("/logging.properties"); 
-//		try
-//		{
-//			LogManager.getLogManager().readConfiguration(inputStream);
-//		}
-//		catch(Exception e)
-//		{
-//			System.out.println(e);
-//		}
+
 		
 		
 		

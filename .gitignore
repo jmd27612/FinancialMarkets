@@ -3,5 +3,5 @@
 
 # Log file
 *.log
-
+logs/*.xml
 
