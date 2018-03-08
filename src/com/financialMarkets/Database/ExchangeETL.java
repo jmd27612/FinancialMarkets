@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.logging.Logger;
 
+import com.financialMarkets.Exchange;
 import com.financialMarkets.Utilities;
 
 public class ExchangeETL
