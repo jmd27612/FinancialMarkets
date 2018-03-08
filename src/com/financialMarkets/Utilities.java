@@ -18,9 +18,15 @@ public final class Utilities
 	
 	protected static final int KEY_LENGTH = 1536; 
 	
-	public static Configuration config; 
+	public static Configuration CONFIG; 
 	
-	public static Logger logger; 
+
+	
+	//LOGGER
+	
+	public static Logger LOGGER; 
+	
+	public static final String EMAIL_ADDRESS = "justinmdudley@icloud.com"; 
 	
 	//GUI
 	public static final String APPLICATION_NAME = "Financial Market Analytics"; 

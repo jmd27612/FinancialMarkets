@@ -33,12 +33,12 @@ public class ExchangeETL
 	//Opens connection to PostgreSQL database server
 	private Connection openDatabaseConnection()
 	{
-		String connectionURL = "jdbc:postgresql://" + Utilities.config.getProperty("EXCHANGEETL_POSTGRESQL_SERVER_ADDRESS", classKey).toString() + "/" + Utilities.config.getProperty("EXCHANGEETL_POSTGRESQL_DATABASE_NAME", classKey).toString(); 
+		String connectionURL = "jdbc:postgresql://" + Utilities.CONFIG.getProperty("EXCHANGEETL_POSTGRESQL_SERVER_ADDRESS", classKey).toString() + "/" + Utilities.CONFIG.getProperty("EXCHANGEETL_POSTGRESQL_DATABASE_NAME", classKey).toString(); 
 		Connection db = null;  
 		
 		try
 		{
-			db = DriverManager.getConnection(connectionURL, Utilities.config.getProperty("EXCHANGEETL_POSTGRESQL_USER", classKey).toString(), Utilities.config.getProperty("EXCHANGEETL_POSTGRESQL_PASSWORD", classKey).toString()); 
+			db = DriverManager.getConnection(connectionURL, Utilities.CONFIG.getProperty("EXCHANGEETL_POSTGRESQL_USER", classKey).toString(), Utilities.CONFIG.getProperty("EXCHANGEETL_POSTGRESQL_PASSWORD", classKey).toString()); 
 		}
 		catch(Exception e)
 		{

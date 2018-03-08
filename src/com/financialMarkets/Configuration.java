@@ -39,7 +39,7 @@ public class Configuration
 	private char[] keyFile;
 	
 	/**
-	 * Constructor opens a logger, loads the keyfile, initializes the properties object, and loads
+	 * Constructor opens a LOGGER, loads the keyfile, initializes the properties object, and loads
 	 * the configuration from the XML file. 
 	 * @throws InvalidPropertiesFormatException  	if the properties object contains invalid keys or values 
 	 * @throws FileNotFoundException  				if the XML configuration file or keyfile cannot be found 
@@ -49,9 +49,9 @@ public class Configuration
 	
 	public Configuration()
 	{
-		Utilities.logger.entering("Configuration", "Configuration");
+		Utilities.LOGGER.entering("Configuration", "Configuration");
 		
-		//Initialize logger
+		//Initialize LOGGER
 		localLogger = Logger.getLogger("com.financialMarkets.Configuration"); 
 		
 		//Load the keyfile from the keystore

@@ -68,7 +68,7 @@ public class ConfigKeyMaintGUI extends JDialog
 	
 	private void createFrame()
 	{
-		//Initialize logger
+		//Initialize LOGGER
 		localLogger = Logger.getLogger("com.financialMarkets.userInterface.ConfigKeyMaintGUI"); 
 		
 		mainPanel = new JPanel(); 
@@ -250,7 +250,7 @@ public class ConfigKeyMaintGUI extends JDialog
 			public void actionPerformed(ActionEvent arg0)
 			{
 				localLogger.info("Submit Button clicked");
-				Utilities.config.setProperty(keyNameField.getText(), keyValueField.getPassword(), classKeyField.getPassword());
+				Utilities.CONFIG.setProperty(keyNameField.getText(), keyValueField.getPassword(), classKeyField.getPassword());
 				setVisible(false); 
 			}
 		});

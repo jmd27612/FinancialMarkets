@@ -48,9 +48,9 @@ public class ConfigFileMaintGUI
 	
 	public ConfigFileMaintGUI()
 	{
-		Utilities.logger.entering("ConfigFileMaintGUI", "ConfigFileMaintGUI");
+		Utilities.LOGGER.entering("ConfigFileMaintGUI", "ConfigFileMaintGUI");
 		
-		//Initialize logger
+		//Initialize LOGGER
 		localLogger = Logger.getLogger("com.financialMarkets.userInterface.ConfigFileMaintGUI"); 
 		
 		mainFrame = new JFrame(); 
@@ -171,7 +171,7 @@ public class ConfigFileMaintGUI
 					{
 						String propertyName = keyList.getSelectedValue(); 
 						localLogger.warning("User requests delete configuration key - " + propertyName);
-						Utilities.config.deleteProperty(propertyName);
+						Utilities.CONFIG.deleteProperty(propertyName);
 						updateKeyList(); 
 					}
 				}
@@ -235,7 +235,7 @@ public class ConfigFileMaintGUI
 		
 		final DefaultListModel<String> L1 = new DefaultListModel<String>(); 
 		
-		for(String property : Utilities.config.getPropertiesList()) 
+		for(String property : Utilities.CONFIG.getPropertiesList()) 
 		{
 			L1.addElement(property);
 		}

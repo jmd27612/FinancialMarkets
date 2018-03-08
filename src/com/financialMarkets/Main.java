@@ -17,9 +17,27 @@ public class Main
 {
 	private static Logger logger; 
 	private static Handler fileHandler; 
+	private static EmailHandler emailHandler; 
 	
 	public static void main(String[] args)
 	{
+//		EmailSender sender = new EmailSender("This is a test log message from MAIN", "TESTING123"); 
+//		sender.run();
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		//Initialize the logging hierarchy and create file handler
 		try
 		{
@@ -31,21 +49,19 @@ public class Main
 			System.err.println(e.toString());
 			System.err.println(e.getMessage());
 			System.err.println(e.getStackTrace());
-		}
-		finally
-		{
+			System.err.println("Exiting");
 			System.exit(1); 
 		}
 
-
+		//logger.log(Level.SEVERE, "This is a warning", new Exception());
 		
 		
 		//initialize(); 
 		
 		
 		//Flush and close the logging file handler
-		fileHandler.flush();
-		fileHandler.close(); 
+//		fileHandler.flush();
+//		fileHandler.close(); 
 
 	}
 	
@@ -56,9 +72,11 @@ public class Main
 	 */
 	private static void initLoggerHierarchy() throws SecurityException, IOException
 	{
-		Utilities.logger = Logger.getLogger(""); 
-		initLoggerFileHandler(); 
-		Utilities.logger.setLevel(Level.ALL); 
+		Utilities.LOGGER = Logger.getLogger(""); 
+		//initLoggerFileHandler(); 
+		Utilities.LOGGER.setLevel(Level.ALL); 
+
+		initLoggerEmailHandler(); 
 		
 		Logger.getLogger("com"); 
 		Logger.getLogger("com.financialMarkets"); 
@@ -67,7 +85,7 @@ public class Main
 	}
 	
 	/**
-	 * Initializes the file handler for the logger, written to the logs directory in the current
+	 * Initializes the file handler for the LOGGER, written to the logs directory in the current
 	 * working directory
 	 * @throws SecurityException
 	 * @throws IOException
@@ -77,9 +95,16 @@ public class Main
 		String logFileName = "logs/global." + Calendar.getInstance().getTimeInMillis() + ".xml"; 
 		fileHandler = new FileHandler(logFileName, false); 
 		fileHandler.setLevel(Level.ALL);
-		Utilities.logger.addHandler(fileHandler);
+		Utilities.LOGGER.addHandler(fileHandler);
 	}
 	
+	private static void initLoggerEmailHandler()
+	{
+		emailHandler = new EmailHandler(); 
+		emailHandler.setLevel(Level.WARNING);
+		Utilities.LOGGER.addHandler(emailHandler);
+		
+	}
 	
 	
 	/**
@@ -93,12 +118,12 @@ public class Main
 		
 		
 		
-		Utilities.logger = Logger.getLogger("com.financialMarkets"); 
+		Utilities.LOGGER = Logger.getLogger("com.financialMarkets"); 
 		try
 		{
 			Handler fileHandler = new FileHandler("‪%t/log.xml", false);
-			Utilities.logger.addHandler(fileHandler);
-			Utilities.logger.setLevel(Level.ALL);
+			Utilities.LOGGER.addHandler(fileHandler);
+			Utilities.LOGGER.setLevel(Level.ALL);
 		} 
 		catch (SecurityException e)
 		{
@@ -115,7 +140,7 @@ public class Main
 		
 		
 		
-		Utilities.config = new Configuration(); 
+		Utilities.CONFIG = new Configuration(); 
 		
 		//Run the GUI codes in the Event-dispatching thread for thread-safety
 		SwingUtilities.invokeLater(new Runnable()
