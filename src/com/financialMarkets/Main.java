@@ -1,12 +1,10 @@
 package com.financialMarkets;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Calendar;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
-import java.util.logging.LogManager;
 import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 
@@ -36,10 +34,9 @@ public class Main
 			System.exit(1); 
 		}
 
-		//logger.log(Level.SEVERE, "This is a warning", new Exception());
 		
 		
-		//initialize(); 
+		initialize(); 
 		
 		
 		//Flush and close the logging file handler
@@ -61,6 +58,8 @@ public class Main
 		
 		Logger.getLogger("com"); 
 		Logger.getLogger("com.financialMarkets"); 
+		Logger.getLogger("com.financialMarkets.Database"); 
+		Logger.getLogger("com.financialMarkets.userInterface"); 
 		logger = Logger.getLogger(Main.class.getName());
 		logger.info("Logging hierarchy initialized");
 	}
@@ -75,7 +74,7 @@ public class Main
 	{
 		String logFileName = "logs/global." + Calendar.getInstance().getTimeInMillis() + ".xml"; 
 		fileHandler = new FileHandler(logFileName, false); 
-		fileHandler.setLevel(Level.ALL);
+		fileHandler.setLevel(Level.INFO);
 		Utilities.LOGGER.addHandler(fileHandler);
 	}
 	
@@ -89,31 +88,6 @@ public class Main
 	private static void initialize()
 	{
 
-		
-		
-		
-		Utilities.LOGGER = Logger.getLogger("com.financialMarkets"); 
-		try
-		{
-			Handler fileHandler = new FileHandler("‪%t/log.xml", false);
-			Utilities.LOGGER.addHandler(fileHandler);
-			Utilities.LOGGER.setLevel(Level.ALL);
-		} 
-		catch (SecurityException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-		catch (IOException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-		
-		
-		
-		
-		
 		Utilities.CONFIG = new Configuration(); 
 		
 		//Run the GUI codes in the Event-dispatching thread for thread-safety
@@ -127,7 +101,7 @@ public class Main
 		
 
 		
-		for(int i = 0; i < 1000; i ++)
+		for(int i = 0; i < 100; i ++)
 		{
 			System.out.println(i);
 			try
@@ -139,6 +113,8 @@ public class Main
 				e.printStackTrace();
 			}
 		}
+		
+		fileHandler.flush(); 
 		
 	}
 

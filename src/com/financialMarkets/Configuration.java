@@ -49,8 +49,6 @@ public class Configuration
 	
 	public Configuration()
 	{
-		Utilities.LOGGER.entering("Configuration", "Configuration");
-		
 		//Initialize LOGGER
 		localLogger = Logger.getLogger("com.financialMarkets.Configuration"); 
 		
